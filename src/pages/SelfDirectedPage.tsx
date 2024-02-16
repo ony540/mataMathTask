@@ -13,7 +13,9 @@ const SelfDirectedPage = () => {
 
   return (
     <Wrapper>
-      <MainHeader>자기주도 학습</MainHeader>
+      <Header>
+        <h1>자기주도 학습</h1>
+      </Header>
       <Tabs
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
@@ -44,7 +46,7 @@ const Wrapper = styled.div`
   padding: 20px;
 `
 
-const MainHeader = styled.h1`
+const Header = styled.header`
   font-size: ${p => p.theme.fontSize.lg};
   font-weight: 700;
   margin-bottom: 20px;

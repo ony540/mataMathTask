@@ -8,24 +8,42 @@ const SelectBox = ({ data }: { data: SelectBoxType }) => {
   const [isShowOptions, setShowOptions] = useState<boolean>(false)
 
   const handleOnChangeSelectValue = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e:
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+      | React.KeyboardEvent<HTMLButtonElement>
   ) => {
     const { innerText } = e.target as HTMLElement
     setSelectedOption(innerText)
+  }
+
+  const handleKeyDownSelected = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      setShowOptions(prev => !prev)
+    }
+  }
+
+  const handleKeyDownOption = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === 'Enter') {
+      handleOnChangeSelectValue(e)
+      setShowOptions(prev => !prev)
+    }
   }
 
   return (
     <SelectBoxContainer>
       <h5>{data.title}</h5>
       <StyledSelectBox
+        tabIndex={0}
         onClick={() => setShowOptions(prev => !prev)}
+        onKeyDown={handleKeyDownSelected}
         $isShowOptions={isShowOptions}>
         <label>{selectedOption}</label>
         <ArrowIcon />
         <SelectOptions
           aria-haspopup="true"
           aria-expanded={isShowOptions}
-          $isShowOptions={isShowOptions}>
+          $isShowOptions={isShowOptions}
+          role="listbox">
           {data.options.map((option, index) => (
             <Option
               key={index}
@@ -33,7 +51,8 @@ const SelectBox = ({ data }: { data: SelectBoxType }) => {
               <button
                 aria-label={`${option} 선택 버튼`}
                 type="button"
-                onClick={handleOnChangeSelectValue}>
+                onClick={handleOnChangeSelectValue}
+                onKeyDown={handleKeyDownOption}>
                 {option}
               </button>
             </Option>
@@ -101,6 +120,7 @@ const Option = styled.li`
     padding: 4px 2.2rem;
     transition: background-color 0.2s ease-in;
 
+    &:focus-visible,
     &:hover {
       background-color: ${p => p.theme.color.yellow100};
     }

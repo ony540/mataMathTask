@@ -56,7 +56,7 @@ const SelectedProblemList = ({
 
 export default SelectedProblemList
 
-const StyledSelectedProblemList = styled.div`
+const StyledSelectedProblemList = styled.section`
   border-radius: 8px;
   padding: 2.4rem;
   background-color: ${p => p.theme.color.gray100};

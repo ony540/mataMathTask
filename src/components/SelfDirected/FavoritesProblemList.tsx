@@ -19,7 +19,7 @@ const FavoritesProblemList = ({
 }: FavoritesProblemListProps) => {
   const { totalCount, list } = data
 
-  const handleClickProblem = (problem: Problem) => {
+  const handleSelectProblem = (problem: Problem) => {
     setSelectedProblems(prev =>
       prev.includes(problem)
         ? prev.filter(item => item.questionId !== problem.questionId)
@@ -27,11 +27,20 @@ const FavoritesProblemList = ({
     )
   }
 
+  const handleKeyDownSelected = (
+    e: React.KeyboardEvent<HTMLLIElement>,
+    problem: Problem
+  ) => {
+    if (e.key === 'Enter') {
+      handleSelectProblem(problem)
+    }
+  }
+
   return (
     <div>
+      <h3 className="a11y-hidden">즐겨찾기 문제 목록</h3>
+      <h4 className="a11y-hidden">범위 선택 드롭다운</h4>
       <div>
-        <h3 className="a11y-hidden">즐겨찾기 문제 목록</h3>
-        <h4 className="a11y-hidden">범위 선택 SelectBox</h4>
         <SelectBox data={SELECTBOX_TEXT.LEARNING_SCOPE} />
         <SelectBox data={SELECTBOX_TEXT.CHAPTER} />
       </div>
@@ -52,7 +61,10 @@ const FavoritesProblemList = ({
           <FavoritesProblemItem
             key={problem.questionId}
             problem={problem}
-            onClick={() => handleClickProblem(problem)}
+            onClick={() => handleSelectProblem(problem)}
+            onKeyDown={(e: React.KeyboardEvent<HTMLLIElement>) =>
+              handleKeyDownSelected(e, problem)
+            }
             isSelected={selectedProblems.includes(problem)}
           />
         ))}
