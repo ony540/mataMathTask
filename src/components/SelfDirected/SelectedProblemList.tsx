@@ -1,6 +1,9 @@
 import styled from 'styled-components'
 import { Problem } from '@/types/mockDataType'
 import SelectedProblemItem from '@/components/SelfDirected/ProblemItem/SelectedProblemItem'
+import { useState } from 'react'
+import Portal from '@/utils/portal'
+import AlertModal from '../common/AlertModal'
 
 interface SelectedProblemListProps {
   selectedProblems: Problem[]
@@ -11,11 +14,12 @@ const SelectedProblemList = ({
   selectedProblems,
   setSelectedProblems
 }: SelectedProblemListProps) => {
+  const [isModalShow, setIsModalShow] = useState<boolean>(false)
+
   const handleClickMakeButton = () => {
-    alert(
-      `선택된 문제의 ID는 ${selectedProblems.map(item => item.questionId)} 입니다!`
-    )
+    setIsModalShow(true)
   }
+
   const handleClickXButton = (problem: Problem) => {
     setSelectedProblems(prev =>
       prev.filter(item => item.questionId !== problem.questionId)
@@ -49,6 +53,14 @@ const SelectedProblemList = ({
         </ProblemList>
       ) : (
         <Notice>문제를 선택해주세요.</Notice>
+      )}
+      {isModalShow && (
+        <Portal>
+          <AlertModal
+            text={`선택된 문제의 ID는 ${selectedProblems.map(item => item.questionId)} 입니다!`}
+            closeModal={() => setIsModalShow(false)}
+          />
+        </Portal>
       )}
     </StyledSelectedProblemList>
   )
