@@ -1,0 +1,45 @@
+{
+  "message": "success",
+  "data": {
+    "totalCount": 4,
+    "totalPages": 0,
+    "list": [
+      {
+        "id": 11168,
+        "questionId": 66557,
+        "name": "",
+        "type": "주관식",
+        "difficult": 3,
+        "questionUrl": "1.png",
+        "createdAt": "2024-01-05T16:24:35"
+      },
+      {
+        "id": 11,
+        "questionId": 213158,
+        "name": "삼각함수의 덧셈정리",
+        "type": "객관식",
+        "difficult": 2,
+        "questionUrl": "2.png",
+        "createdAt": "2023-11-20T15:14:57"
+      },
+      {
+        "id": 10,
+        "questionId": 212309,
+        "name": "삼각함수의 역수의 정의",
+        "type": "객관식",
+        "difficult": 2,
+        "questionUrl": "3.png",
+        "createdAt": "2023-11-20T15:14:54"
+      },
+      {
+        "id": 2,
+        "questionId": 360659,
+        "name": "교점과 교선",
+        "type": "주관식",
+        "difficult": 2,
+        "questionUrl": "4.png",
+        "createdAt": "2023-11-20T14:37:40"
+      }
+    ]
+  }
+}
