@@ -7,7 +7,9 @@ interface AlertModalType {
 
 const AlertModal = ({ text, closeModal }: AlertModalType) => {
   return (
-    <ModalBackground onClick={closeModal}>
+    <ModalBackground
+      role="dialog"
+      onClick={closeModal}>
       <Modal>
         <p>{text}</p>
         <StyledButton
