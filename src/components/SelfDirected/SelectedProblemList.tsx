@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { Problem } from '@/types/mockDataType'
 import SelectedProblemItem from '@/components/SelfDirected/ProblemItem/SelectedProblemItem'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Portal from '@/utils/portal'
 import AlertModal from '../common/AlertModal'
+import useDetectScrollbar from '@/hooks/useDetectScrollbar'
 
 interface SelectedProblemListProps {
   selectedProblems: Problem[]
@@ -15,6 +16,11 @@ const SelectedProblemList = ({
   setSelectedProblems
 }: SelectedProblemListProps) => {
   const [isModalShow, setIsModalShow] = useState<boolean>(false)
+  const { containerRef, isHasScrollbar, detectScrollbar } = useDetectScrollbar()
+
+  useEffect(() => {
+    detectScrollbar()
+  }, [selectedProblems])
 
   const handleClickMakeButton = () => {
     setIsModalShow(true)
@@ -42,7 +48,9 @@ const SelectedProblemList = ({
         </div>
       </InfoContainer>
       {selectedProblems.length ? (
-        <ProblemList>
+        <ProblemList
+          ref={containerRef}
+          $isHasScrollbar={isHasScrollbar}>
           {selectedProblems.map(problem => (
             <SelectedProblemItem
               key={problem.questionId}
@@ -130,9 +138,10 @@ const Notice = styled.p`
   color: ${p => p.theme.color.gray700};
 `
 
-const ProblemList = styled.ul`
-  overflow-y: scroll;
+const ProblemList = styled.ul<{ $isHasScrollbar: boolean }>`
+  overflow-y: auto;
   height: calc(100vh - 85px - 28.4rem);
+  padding-right: ${p => p.$isHasScrollbar && '1rem'};
 
   li {
     margin-bottom: 1.6rem;

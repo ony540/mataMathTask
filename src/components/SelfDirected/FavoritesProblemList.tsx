@@ -5,6 +5,8 @@ import { SORT_TEXT } from '@/constants/sortText'
 import SortBox from '@/components/common/SortBox'
 import SelectBox from '@/components/common/SelectBox'
 import { MockDataType, Problem } from '@/types/mockDataType'
+import useDetectScrollbar from '@/hooks/useDetectScrollbar'
+import { useEffect } from 'react'
 
 interface FavoritesProblemListProps {
   data: MockDataType
@@ -18,6 +20,11 @@ const FavoritesProblemList = ({
   setSelectedProblems
 }: FavoritesProblemListProps) => {
   const { totalCount, list } = data
+  const { containerRef, isHasScrollbar, detectScrollbar } = useDetectScrollbar()
+
+  useEffect(() => {
+    detectScrollbar()
+  }, [])
 
   const handleSelectProblem = (problem: Problem) => {
     setSelectedProblems(prev =>
@@ -56,7 +63,9 @@ const FavoritesProblemList = ({
         </div>
       </CountSortContainer>
       <h4 className="a11y-hidden">문제 목록</h4>
-      <ProblemList>
+      <ProblemList
+        ref={containerRef}
+        $isHasScrollbar={isHasScrollbar}>
         {list.map(problem => (
           <FavoritesProblemItem
             key={problem.questionId}
@@ -92,13 +101,13 @@ const CountSortContainer = styled.div`
   }
 `
 
-const ProblemList = styled.ul`
+const ProblemList = styled.ul<{ $isHasScrollbar: boolean }>`
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   height: calc(100vh - 35.6rem - 70px);
-  overflow-y: scroll;
-  padding-right: 1rem;
+  overflow-y: auto;
+  padding-right: ${p => p.$isHasScrollbar && '1rem'};
 
   @media (max-width: 1200px) {
     grid-template-columns: 1fr;
